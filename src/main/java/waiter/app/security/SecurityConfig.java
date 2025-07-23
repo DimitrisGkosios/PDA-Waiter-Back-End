@@ -36,10 +36,11 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/menu/**").permitAll() // <-- εδώ το πρόσθεσα
+                .requestMatchers("/api/menu/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/orders").hasAnyRole("WAITER", "ADMIN")
-                //.requestMatchers(HttpMethod.POST, "/api/orders").permitAll()
                 .requestMatchers(HttpMethod.PUT, "/api/orders/*/refund").hasRole("ADMIN")
+                .requestMatchers("/api/users/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/users/*").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
@@ -53,7 +54,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("*")); // Μπορείς να βάλεις εδώ το URL του front-end σου πχ "http://localhost:3000"
+        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // front-end origin
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
