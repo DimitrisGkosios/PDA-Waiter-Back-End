@@ -1,12 +1,14 @@
 package waiter.app.dto;
 
-import lombok.Data;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.*;
 import waiter.app.Enums.Role;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class RegisterRequest {
 
     @Email(message = "Invalid email format")
@@ -20,6 +22,5 @@ public class RegisterRequest {
     @NotBlank(message = "Full name is required")
     private String fullName;
 
-    private Role role;
+    private Role role; // Optional, if null, you can default to a role in your service
 }
-

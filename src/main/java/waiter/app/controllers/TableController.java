@@ -1,5 +1,6 @@
 package waiter.app.controllers;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import waiter.app.dto.TableDto;
 import waiter.app.Enums.TableStatus;
 import waiter.app.services.TableService;
@@ -23,6 +24,7 @@ public class TableController {
     }
 
     @PutMapping("/{id}/status")
+    @PreAuthorize("hasRole('WAITER') or hasRole('ADMIN')")
     public ResponseEntity<TableDto> updateStatus(
             @PathVariable Long id,
             @RequestParam TableStatus status,

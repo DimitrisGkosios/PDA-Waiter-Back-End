@@ -1,5 +1,8 @@
 package waiter.app.dto;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,9 +15,15 @@ import java.util.List;
 @NoArgsConstructor
 public class OrderDto {
     private Long id;
+
+    @NotNull(message = "Waiter username is required")
     private String waiterUsername;
+
+    @NotNull(message = "Order status is required")
     private OrderStatus status;
-    private List<OrderItemDto> items;
+
+    @NotEmpty(message = "Order must contain at least one item")
+    private List<@Valid OrderItemDto> items;
 
     private String refundedBy;
     private String refundReason;

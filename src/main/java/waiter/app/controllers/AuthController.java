@@ -31,7 +31,6 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            // Παίρνουμε το πρώτο μήνυμα λάθους
             String errorMessage = bindingResult.getFieldError().getDefaultMessage();
             return ResponseEntity.badRequest().body(errorMessage);
         }
@@ -51,7 +50,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest request) {
+    public ResponseEntity<?> login(@Valid @RequestBody AuthRequest request) {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
@@ -65,6 +64,6 @@ public class AuthController {
 
         String token = jwtUtil.generateToken(user.getEmail(), user.getRole().name());
 
-        return ResponseEntity.ok(new AuthResponse(token));
+        return ResponseEntity.ok(new AuthResponse(token, user.getRole().name()));
     }
 }
